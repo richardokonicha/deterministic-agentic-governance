@@ -198,6 +198,32 @@ This executes 10 coordinated tasks covering:
 - Integration & component testing
 - Build configuration & documentation
 
+## Use Cases
+
+### ✅ Ideal For
+
+| Domain | Example Scenarios |
+|--------|-------------------|
+| **Large-Scale Migrations** | Electron → Tauri, Webpack → Vite, REST → GraphQL, Monolith → Microservices |
+| **Automated Refactoring** | Design system migrations, TypeScript strict mode enablement, legacy pattern removal, dead code elimination |
+| **Cross-Platform Generation** | API clients from OpenAPI, DB schema → ORM models, Protobuf/gRPC stubs |
+| **Compliance-Required Environments** | Fintech, healthcare, defense - full audit trails, human sign-off gates, ISO 42001/NIST AI RMF |
+| **CI/CD Automation** | Dependency updates with verification, security patch backporting, release preparation |
+| **AI-Assisted Feature Development** | Epic → tasks → governed execution, parallel execution with dependencies, self-healing retries |
+
+### ❌ Not Ideal For
+
+| Scenario | Better Alternative |
+|----------|-------------------|
+| Quick prototyping / exploration | Direct LLM chat (Cursor, Claude Code) |
+| Single-file edits | IDE copilot |
+| Creative/exploratory coding | Unconstrained agent |
+| Learning/experimentation | Notebook/REPL |
+
+### Key Differentiator
+
+Unlike conversational agents, this framework provides **deterministic guarantees**: every task either passes all compiler/linter gates and commits atomically, or rolls back cleanly with full diagnostic capture. No context rot, no hallucinated verifications, no partial broken states.
+
 ## Enterprise Governance
 
 ### Three-Tier Authorization Matrix
