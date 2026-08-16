@@ -83,7 +83,7 @@ export interface SandboxPolicy {
 }
 
 export interface AgentConfig {
-  type: 'claude-code' | 'aider' | 'opencode' | 'custom';
+  type: 'claude-code' | 'aider' | 'opencode' | 'kilo' | 'custom';
   command: string;
   args: string[];
   env: Record<string, string>;

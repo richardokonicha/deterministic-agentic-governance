@@ -201,6 +201,35 @@ export class OpenCodeAdapter extends BaseAgentAdapter {
   }
 }
 
+export class KiloCodeAdapter extends BaseAgentAdapter {
+  constructor(config: AgentConfig) {
+    super({
+      ...config,
+      type: 'kilo',
+      command: config.command || 'kilo',
+      args: config.args || ['run', '--headless'],
+    });
+  }
+
+  async execute(context: ExecutionContext, task: TaskRecord): Promise<ExecutionResult> {
+    const startTime = Date.now();
+    const prompt = this.buildPrompt(task, context);
+    
+    const result = await this.execAgent(prompt, context.workspacePath, {
+      GOVERNANCE_TASK_ID: task.id,
+      GOVERNANCE_TARGET_PATH: task.targetPath,
+    });
+
+    return {
+      taskId: task.id,
+      success: result.code === 0,
+      verificationResults: [],
+      error: result.code !== 0 ? result.stderr : undefined,
+      durationMs: Date.now() - startTime,
+    };
+  }
+}
+
 export class CustomAgentAdapter extends BaseAgentAdapter {
   private executor: (prompt: string, workspacePath: string) => Promise<{ stdout: string; stderr: string; code: number }>;
 
@@ -233,6 +262,8 @@ export function createAgentAdapter(config: AgentConfig): AgentAdapter {
       return new AiderAdapter(config);
     case 'opencode':
       return new OpenCodeAdapter(config);
+    case 'kilo':
+      return new KiloCodeAdapter(config);
     case 'custom':
       throw new Error('Custom adapter requires executor function');
     default:

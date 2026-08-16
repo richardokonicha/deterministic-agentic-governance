@@ -4,9 +4,9 @@ export { SandboxEnforcer, createDefaultSandboxEnforcer } from './governance/sand
 export { VerificationOrchestrator } from './governance/verification';
 export type { VerificationContext } from './governance/verification';
 export { GitManager, createGitManager } from './governance/git';
-export { createAgentAdapter, BaseAgentAdapter, ClaudeCodeAdapter, AiderAdapter, OpenCodeAdapter, CustomAgentAdapter } from './governance/agents';
+export { createAgentAdapter, BaseAgentAdapter, ClaudeCodeAdapter, AiderAdapter, OpenCodeAdapter, KiloCodeAdapter, CustomAgentAdapter } from './governance/agents';
 export type { AgentAdapter } from './governance/agents';
-export { ConfigManager, createGovernanceConfig } from './governance/config';
+export { ConfigManager, createGovernanceConfig, KILO_AGENT_CONFIG } from './governance/config';
 export { CLI, runCLI } from './governance/cli';
 
 export type * from './types';

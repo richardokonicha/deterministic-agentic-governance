@@ -64,6 +64,21 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
   ],
 };
 
+export const KILO_AGENT_CONFIG: AgentConfig = {
+  type: 'kilo',
+  command: 'kilo',
+  args: ['run', '--headless'],
+  env: {},
+  headlessFlags: ['run', '--headless'],
+  capabilities: [
+    'file_read',
+    'file_write',
+    'command_exec',
+    'git_operations',
+    'package_manager',
+  ],
+};
+
 export const DEFAULT_GIT_CONFIG: GitConfig = {
   autoCommit: true,
   commitMessageTemplate: 'feat(task-{taskId}): {description}\n\nTask: {taskId}\nCategory: {category}',

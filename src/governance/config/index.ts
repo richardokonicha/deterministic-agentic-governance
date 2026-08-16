@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { GlobalConfig, GovernanceConfig } from '../../types';
-import { createDefaultConfig, mergeCategoryConfig } from './defaults';
+import { createDefaultConfig, mergeCategoryConfig, KILO_AGENT_CONFIG } from './defaults';
 
 export class ConfigManager {
   private config: GlobalConfig;
@@ -80,3 +80,5 @@ export function createGovernanceConfig(
     dryRun: false,
   };
 }
+
+export { KILO_AGENT_CONFIG } from './defaults';
