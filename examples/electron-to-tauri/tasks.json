@@ -1,0 +1,201 @@
+[
+  {
+    "id": "TASK-001",
+    "category": "INFRASTRUCTURE",
+    "referencePath": "electron/main.ts",
+    "targetPath": "src-tauri/src/main.rs",
+    "description": "Create Tauri 2.0 main entry point with Tokio runtime",
+    "acceptanceCriteria": [
+      "Compiles with cargo check",
+      "Initializes Tauri app with proper config",
+      "Sets up async runtime for background tasks",
+      "No unimplemented!() or TODO comments"
+    ],
+    "dependencies": [],
+    "maxRetries": 3,
+    "timeoutMs": 300000,
+    "metadata": {
+      "migrationPhase": "core-runtime"
+    }
+  },
+  {
+    "id": "TASK-002",
+    "category": "INFRASTRUCTURE",
+    "referencePath": "electron/preload.ts",
+    "targetPath": "src-tauri/src/ipc.rs",
+    "description": "Implement Tauri IPC layer replacing Electron IPC",
+    "acceptanceCriteria": [
+      "Compiles with cargo check",
+      "Defines all invoke commands for frontend",
+      "Handles streaming token buffers",
+      "No unimplemented!() or TODO comments"
+    ],
+    "dependencies": ["TASK-001"],
+    "maxRetries": 3,
+    "timeoutMs": 300000,
+    "metadata": {
+      "migrationPhase": "core-runtime"
+    }
+  },
+  {
+    "id": "TASK-003",
+    "category": "DATA_STORAGE",
+    "referencePath": "electron/store/index.ts",
+    "targetPath": "src-tauri/src/storage/mod.rs",
+    "description": "Create hybrid SQLite + Markdown persistence layer",
+    "acceptanceCriteria": [
+      "Compiles with cargo check",
+      "Implements FTS5 full-text search",
+      "Integrates sqlite-vec for vector similarity",
+      "Background sync to .md files",
+      "No unimplemented!() or TODO comments"
+    ],
+    "dependencies": ["TASK-001"],
+    "maxRetries": 5,
+    "timeoutMs": 600000,
+    "metadata": {
+      "migrationPhase": "data-layer"
+    }
+  },
+  {
+    "id": "TASK-004",
+    "category": "LLM_INFERENCE",
+    "referencePath": "electron/services/llm.ts",
+    "targetPath": "src-tauri/src/llm/mod.rs",
+    "description": "Implement non-blocking token streaming with Rust background workers",
+    "acceptanceCriteria": [
+      "Compiles with cargo check",
+      "Uses tokio::sync::mpsc for buffering",
+      "Throttles emissions to 10Hz",
+      "Supports multi-provider (OpenAI, Anthropic, local)",
+      "No unimplemented!() or TODO comments"
+    ],
+    "dependencies": ["TASK-002"],
+    "maxRetries": 3,
+    "timeoutMs": 300000,
+    "metadata": {
+      "migrationPhase": "llm-streaming"
+    }
+  },
+  {
+    "id": "TASK-005",
+    "category": "UI_COMPONENT",
+    "referencePath": "src/components/ChatView.tsx",
+    "targetPath": "src/components/ChatView.tsx",
+    "description": "Virtualize message list with @tanstack/react-virtual",
+    "acceptanceCriteria": [
+      "TypeScript compiles with tsc --noEmit",
+      "Caps DOM nodes to ~20 visible elements",
+      "Preserves Markdown, code blocks, KaTeX rendering",
+      "Passes ESLint and Prettier checks",
+      "No TODO or stub comments"
+    ],
+    "dependencies": ["TASK-004"],
+    "maxRetries": 3,
+    "timeoutMs": 180000,
+    "metadata": {
+      "migrationPhase": "frontend-optimization"
+    }
+  },
+  {
+    "id": "TASK-006",
+    "category": "UI_COMPONENT",
+    "referencePath": "src/components/ProviderSelector.tsx",
+    "targetPath": "src/components/ProviderSelector.tsx",
+    "description": "Adapt provider selection UI for Tauri multi-provider config",
+    "acceptanceCriteria": [
+      "TypeScript compiles with tsc --noEmit",
+      "Reads providers from Tauri config",
+      "Persists selection to SQLite",
+      "Passes ESLint and Prettier checks",
+      "No TODO or stub comments"
+    ],
+    "dependencies": ["TASK-003"],
+    "maxRetries": 2,
+    "timeoutMs": 180000,
+    "metadata": {
+      "migrationPhase": "frontend-optimization"
+    }
+  },
+  {
+    "id": "TASK-007",
+    "category": "TESTING",
+    "referencePath": "",
+    "targetPath": "src-tauri/tests/integration_test.rs",
+    "description": "Create integration tests for Tauri app core functionality",
+    "acceptanceCriteria": [
+      "Compiles with cargo check",
+      "Tests IPC command handling",
+      "Tests SQLite persistence layer",
+      "Tests LLM streaming buffer",
+      "All tests pass with cargo test",
+      "No unimplemented!() or TODO comments"
+    ],
+    "dependencies": ["TASK-003", "TASK-004"],
+    "maxRetries": 3,
+    "timeoutMs": 300000,
+    "metadata": {
+      "migrationPhase": "testing"
+    }
+  },
+  {
+    "id": "TASK-008",
+    "category": "TESTING",
+    "referencePath": "",
+    "targetPath": "src/__tests__/ChatView.test.tsx",
+    "description": "Create React component tests for virtualized chat view",
+    "acceptanceCriteria": [
+      "TypeScript compiles with tsc --noEmit",
+      "Tests virtualization with 500+ messages",
+      "Tests Markdown/code/KaTeX rendering",
+      "All tests pass with npm test",
+      "No TODO or stub comments"
+    ],
+    "dependencies": ["TASK-005"],
+    "maxRetries": 2,
+    "timeoutMs": 180000,
+    "metadata": {
+      "migrationPhase": "testing"
+    }
+  },
+  {
+    "id": "TASK-009",
+    "category": "INFRASTRUCTURE",
+    "referencePath": "electron/builder.json",
+    "targetPath": "src-tauri/tauri.conf.json",
+    "description": "Configure Tauri 2.0 build, bundling, and security settings",
+    "acceptanceCriteria": [
+      "Valid JSON schema for Tauri 2.0",
+      "Configures CSP for security",
+      "Sets up sidecar binaries if needed",
+      "Defines updater configuration",
+      "Bundle size target < 15MB"
+    ],
+    "dependencies": ["TASK-001"],
+    "maxRetries": 2,
+    "timeoutMs": 120000,
+    "metadata": {
+      "migrationPhase": "build-config"
+    }
+  },
+  {
+    "id": "TASK-010",
+    "category": "DOCUMENTATION",
+    "referencePath": "",
+    "targetPath": "docs/ARCHITECTURE.md",
+    "description": "Document Tauri 2.0 architecture decisions and migration guide",
+    "acceptanceCriteria": [
+      "Markdown syntax valid",
+      "Documents IPC layer design",
+      "Documents storage architecture",
+      "Documents streaming buffer design",
+      "Includes performance benchmarks"
+    ],
+    "dependencies": ["TASK-007", "TASK-008"],
+    "maxRetries": 1,
+    "timeoutMs": 60000,
+    "metadata": {
+      "migrationPhase": "documentation"
+    }
+  }
+]

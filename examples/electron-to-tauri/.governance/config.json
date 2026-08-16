@@ -1,0 +1,97 @@
+{
+  "projectName": "electron-to-tauri-migration",
+  "maxConcurrentTasks": 1,
+  "defaultMaxRetries": 3,
+  "defaultTimeoutMs": 300000,
+  "verificationGates": [
+    "TYPE_CHECK",
+    "SYNTAX_CHECK",
+    "AST_LINT",
+    "ANTI_STUB",
+    "TEST_SUITE"
+  ],
+  "sandboxPolicy": {
+    "readOnlyPaths": [
+      "src/**",
+      "electron/**",
+      "package.json",
+      "tsconfig.json",
+      "Cargo.toml",
+      "*.md",
+      "*.json"
+    ],
+    "writeOnlyPaths": [
+      "src/**",
+      "src-tauri/**",
+      "tests/**",
+      "dist/**",
+      "build/**",
+      "docs/**"
+    ],
+    "forbiddenPaths": [
+      ".git/**",
+      "node_modules/**",
+      ".env*",
+      "*.key",
+      "*.pem",
+      "secrets/**"
+    ],
+    "allowedCommands": [
+      "npm",
+      "pnpm",
+      "yarn",
+      "cargo",
+      "tsc",
+      "eslint",
+      "prettier",
+      "git",
+      "node"
+    ],
+    "forbiddenCommands": [
+      "rm -rf",
+      "sudo",
+      "chmod 777",
+      "curl",
+      "wget",
+      "ssh",
+      "scp"
+    ],
+    "networkAccess": false,
+    "maxExecutionTimeMs": 300000,
+    "maxMemoryMb": 1024
+  },
+  "agentConfig": {
+    "type": "claude-code",
+    "command": "claude",
+    "args": [
+      "-p",
+      "--bare",
+      "--dangerously-skip-permissions"
+    ],
+    "env": {},
+    "headlessFlags": [
+      "-p",
+      "--bare",
+      "--dangerously-skip-permissions"
+    ],
+    "capabilities": [
+      "file_read",
+      "file_write",
+      "command_exec",
+      "git_operations",
+      "package_manager"
+    ]
+  },
+  "gitConfig": {
+    "autoCommit": true,
+    "commitMessageTemplate": "feat(task-{taskId}): {description}\n\nTask: {taskId}\nCategory: {category}\nMigration: Electron to Tauri 2.0",
+    "branchPrefix": "migration/",
+    "protectedBranches": [
+      "main",
+      "master",
+      "production",
+      "release"
+    ],
+    "requireSignOff": false
+  }
+}
