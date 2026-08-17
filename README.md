@@ -1,5 +1,9 @@
 # Deterministic Agentic Governance Framework
 
+[![npm version](https://img.shields.io/npm/v/deterministic-agentic-governance.svg)](https://www.npmjs.com/package/deterministic-agentic-governance)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen.svg)](https://github.com/richardokonicha/deterministic-agentic-governance)
+
 A production-grade framework for governing autonomous AI agents in software engineering, implementing the three pillars of deterministic governance:
 
 1. **Persistent State Ledger** - External task state management (PROGRESS.json)
