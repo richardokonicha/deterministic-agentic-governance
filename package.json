@@ -8,8 +8,8 @@
     "govern": "dist/governance/cli/index.js"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "ts-node src/index.ts",
+    "build": "node init && tsc",
+    "dev": "node init && ts-node src/index.ts",
     "test": "jest",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src"
